@@ -1,13 +1,19 @@
+import { signOut } from 'firebase/auth';
 import React from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { Link } from 'react-router-dom';
+import auth from '../../firebase.init';
 
 const Header = () => {
+    const [user] = useAuthState(auth);
+    console.log(user);
+
     return (
-        <div>
+        <div className='border-b-2'>
             <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800">
                 <div className="container flex flex-wrap justify-between items-center mx-auto">
                     <Link to='/' className="flex items-center">
-                        <img src="https://i.ibb.co/s2dGwFB/Group-1329.png" className="mr-3 h-6 sm:h-9" alt="Flowbite Logo" />
+                        <img src="https://i.ibb.co/s2dGwFB/Group-1329.png" className="mr-3 h-6 sm:h-9" alt="Logo" />
                     </Link>
                     <div className="flex items-center md:order-2">
                         <button type="button" className="flex mr-3 text-sm border rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="dropdown">
@@ -55,13 +61,26 @@ const Header = () => {
                             <li>
                                 <Link to='/addservice' className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Add Service</Link>
                             </li>
-                            <li>
+                            <li className={`${user ? 'block' : 'hidden'}`}>
                                 <Link to='/event' className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Event</Link>
                             </li>
                             <li>
                                 <Link to='/blog' className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Blog</Link>
                             </li>
+                            <li>
+                                {
+                                    user ?
+                                        <div className='flex'>
+                                            <button onClick={() => signOut(auth)} className="block font-semibold py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Sign out</button>
+                                        </div> :
+                                        <Link to='/login' className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Login</Link>
+                                }
+                            </li>
                         </ul>
+                    </div>
+                    <div className='hidden md:flex order-1'>
+                        <p className='hidden md:flex ml-2 text-indigo-600 '>{user?.displayName}</p>
+                        <img className='rounded-full w-6 ml-2' src={user?.photoURL} alt="" />
                     </div>
                 </div>
             </nav>

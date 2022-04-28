@@ -1,9 +1,13 @@
 import axios from 'axios';
 import React from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { useForm } from "react-hook-form";
+import auth from '../../firebase.init';
+import Spinner from '../Spinner/Spinner';
 
 const AddServices = () => {
     const { register, handleSubmit } = useForm();
+    const [user, loading, error] = useAuthState(auth);
 
     const onSubmit = data => {
         console.log(data);
@@ -13,6 +17,10 @@ const AddServices = () => {
         })();
 
     };
+
+    if (loading) {
+        return <Spinner />
+    }
 
     return (
         <div className='md:flex justify-center p-8 align-middle bg-indigo-200'>
