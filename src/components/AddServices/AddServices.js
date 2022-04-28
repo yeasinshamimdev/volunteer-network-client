@@ -12,7 +12,7 @@ const AddServices = () => {
     const onSubmit = data => {
         console.log(data);
         (async () => {
-            const url = 'http://localhost:5000/addservice';
+            const url = 'https://floating-caverns-85788.herokuapp.com/addservice';
             axios.post(url, data);
         })();
 

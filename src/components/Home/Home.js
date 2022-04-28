@@ -11,7 +11,7 @@ const Home = () => {
 
     useEffect(() => {
         (async () => {
-            const url = 'http://localhost:5000/services';
+            const url = 'https://floating-caverns-85788.herokuapp.com/services';
             axios.get(url)
                 .then(data => {
                     console.log(data);
