@@ -1,9 +1,23 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
 const Home = () => {
+    const [volunteerServices, setVolunteerServices] = useState([]);
+    useEffect(() => {
+        (async () => {
+            const url = 'http://localhost:5000/services';
+            axios.get(url)
+                .then(data => {
+                    console.log(data);
+                    setVolunteerServices(data.data);
+                });
+        })();
+    }, []);
+
+
     return (
         <div>
-            <h1>This is home </h1>
+
         </div>
     );
 };
